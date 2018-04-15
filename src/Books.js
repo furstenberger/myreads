@@ -7,24 +7,16 @@ class Books extends Component {
     
     //propTypes to controle what is coming
     static propTypes = {
-        bookList: PropTypes.array.isRequired,
-    };
-    
-    // state variables
-    state = {
-        shelf: ''
+        filteredBookList: PropTypes.array.isRequired
     };
     
     // render method
     render () {
-
-        const bookList = this.props.bookList;
-
         return ( 
             <ol className="books-grid">
-                {bookList.map((book) => (
-                    <li>    
-                        <div className="book" key={book.id}>
+                {this.props.filteredBookList.map((book) => (
+                    <li key={book.id}>     
+                        <div className="book">
                             <div className="book-top">
                                 <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
                                 <div className="book-shelf-changer">
@@ -47,4 +39,4 @@ class Books extends Component {
     }
 }
 
-export default Books
+export default Books;
