@@ -9,8 +9,13 @@ class Books extends Component {
     static propTypes = {
         filteredBookList: PropTypes.array.isRequired
     };
+
+    handleChange(value) {
+        console.log(value);
+    }
     
     // render method
+    // the books are rendered according to filteredBookList
     render () {
         return ( 
             <ol className="books-grid">
@@ -20,7 +25,7 @@ class Books extends Component {
                             <div className="book-top">
                                 <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
                                 <div className="book-shelf-changer">
-                                    <select>
+                                    <select onChange={(event) => this.handleChange(event.target.value)}>
                                         <option value="none" disabled>Move to...</option>
                                         <option value="currentlyReading">Currently Reading</option>
                                         <option value="wantToRead">Want to Read</option>
