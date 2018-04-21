@@ -27,7 +27,7 @@ class BookShelves extends Component {
         //console.log(book);
         BooksAPI.update(book, newBookShelf).then(() => {
             this.setState((state) => {
-                // find object index to update in state varabiels
+                // find object index to update in state variables
                 const index = state.bookList.map((e) => {return e.id}).indexOf(book.id);
                 // upadte state variable according book ID and assign a new shelf state that renders when chaged
                 bookList: state.bookList[index].shelf = newBookShelf; 

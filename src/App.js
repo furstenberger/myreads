@@ -8,8 +8,6 @@ import * as BooksAPI from './BooksAPI'
 
 class BooksApp extends React.Component {
   
-  
-  
   state = {
     bookShelves: ['Currently Reading', 'Want to Read', 'Read'],
     query: '',
@@ -17,20 +15,45 @@ class BooksApp extends React.Component {
   }
 
   updateQuery = (query) => {
+
     this.setState({ query: query })
     
-    if (query !== "") {
+/*     if (query !== "") {
       BooksAPI.search(query).then((res) => {
         this.setState({ bookQuery: res })
       });
     } else {
       this.setState({ bookQuery: [] })
-    };
+    }; */
+    
+    BooksAPI.search(query).then((res) => {
+      // here it must be clear that query and state query are the same due to async fetch of queries resolution
+      if (query === this.state.query) {
+        this.setState({ bookQuery: res })
+      }}).catch(() => {
+        this.setState({ bookQuery: [] })
+    });
+  }
+
+  // handle shelf changes in the server so user changes are saved accordingly
+  // update bookList state
+  handleShelfChange(book, newBookShelf) {
+    //console.log(book);
+    BooksAPI.update(book, newBookShelf).then(() => {
+      this.setState((state) => {
+        // find object index to update in state variables
+        const index = state.bookList.map((e) => { return e.id }).indexOf(book.id);
+        // upadte state variable according book ID and assign a new shelf state that renders when chaged
+        bookList: state.bookList[index].shelf = newBookShelf;
+      });
+    })
   }
 
   render() {
 
     const { query, bookQuery } = { query: this.state.query, bookQuery: this.state.bookQuery};
+    console.log('bookquery to render');
+    console.log(bookQuery);
 
     return (
       <div className="app">
@@ -47,7 +70,6 @@ class BooksApp extends React.Component {
                   However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                   you don't find a specific author or title. Every search is limited by search terms.
                 */
-                console.log(this.state.bookQuery)
                 }
                 <input  type="text" 
                         placeholder="Search by title or author"
@@ -58,7 +80,7 @@ class BooksApp extends React.Component {
             </div>
             <div className="search-books-results">
               { bookQuery.length !== 0  && (
-                <Books filteredBookList={bookQuery} />)
+                <Books filteredBookList={bookQuery} onBookShelfChange={(book, newBookShelf) => this.handleShelfChange(book, newBookShelf)} />)
               }
               <ol className="books-grid"></ol>
             </div>
