@@ -11,6 +11,14 @@ To get started developing right away:
 * install all project dependencies with `npm install`
 * start the development server with `npm start`
 
+## Developed Components
+
+The app was designed to work around 3 different components
+
+* App
+* BookShelves
+* Books
+
 ## What You're Getting
 ```bash
 ├── CONTRIBUTING.md
