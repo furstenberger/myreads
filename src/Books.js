@@ -38,7 +38,7 @@ class Books extends Component {
                             <div className="book-top">
                                 <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url(${this.handleImgFallback(book)})` }}></div>
                                 <div className="book-shelf-changer">
-                                    <select onChange={(event) => this.handleChange(book, event.target.value)}>
+                                    <select value={book.shelf ? book.shelf : 'none'} onChange={(event) => this.handleChange(book, event.target.value)}>
                                         <option value="none">Move to...</option>
                                         <option value="currentlyReading">Currently Reading</option>
                                         <option value="wantToRead">Want to Read</option>

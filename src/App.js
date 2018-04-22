@@ -25,6 +25,7 @@ class BooksApp extends React.Component {
           // here it must be clear that query and state query are the same due to async fetch of queries resolution
           if (query === this.state.query) {
             this.setState({ bookQuery: res })
+            console.log(res[0].shelf)
           }})
         .catch((err) => {
           console.log('Error occurred searching books: ', err);          
