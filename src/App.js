@@ -20,15 +20,18 @@ class BooksApp extends React.Component {
     
     // if query is empty, clean the bookArray to render a clean screen, 
     if (query !== '') {
-      BooksAPI.search(query).then((res) => {
-        // here it must be clear that query and state query are the same due to async fetch of queries resolution
-        if (query === this.state.query) {
-          this.setState({ bookQuery: res })
-        }}).catch((res) => {
-          console.log(res)          
+      BooksAPI.search(query)
+        .then((res) => {
+          // here it must be clear that query and state query are the same due to async fetch of queries resolution
+          if (query === this.state.query) {
+            this.setState({ bookQuery: res })
+          }})
+        .catch((err) => {
+          console.log('Error occurred searching books: ', err);          
       });
     }
     else { 
+      console.log('quando query vazio o valor de bookQuery e: ', this.state.bookQuery)
       this.setState({ bookQuery: [] });
     }
   }
