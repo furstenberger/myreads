@@ -18,21 +18,19 @@ class BooksApp extends React.Component {
 
     this.setState({ query: query })
     
-/*     if (query !== "") {
+    // if query is empty, clean the bookArray to render a clean screen, 
+    if (query !== '') {
       BooksAPI.search(query).then((res) => {
-        this.setState({ bookQuery: res })
+        // here it must be clear that query and state query are the same due to async fetch of queries resolution
+        if (query === this.state.query) {
+          this.setState({ bookQuery: res })
+        }}).catch((res) => {
+          console.log(res)          
       });
-    } else {
-      this.setState({ bookQuery: [] })
-    }; */
-    
-    BooksAPI.search(query).then((res) => {
-      // here it must be clear that query and state query are the same due to async fetch of queries resolution
-      if (query === this.state.query) {
-        this.setState({ bookQuery: res })
-      }}).catch(() => {
-        this.setState({ bookQuery: [] })
-    });
+    }
+    else { 
+      this.setState({ bookQuery: [] });
+    }
   }
 
   // handle shelf changes in the server so user changes are saved accordingly
@@ -52,8 +50,6 @@ class BooksApp extends React.Component {
   render() {
 
     const { query, bookQuery } = { query: this.state.query, bookQuery: this.state.bookQuery};
-    console.log('bookquery to render');
-    console.log(bookQuery);
 
     return (
       <div className="app">
