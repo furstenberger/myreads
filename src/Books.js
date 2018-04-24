@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import noCover from './icons/No-cover-placeholder.png'
 
 
-// Book Component - renders a single book
+// Book Component - renders list of books
 class Books extends Component {
     
     //propTypes to controle what is coming
