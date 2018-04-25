@@ -7,19 +7,9 @@ class BookShelves extends Component {
 
     //propTypes to controle what is coming
     static propTypes = {
-        bookShelves: PropTypes.array.isRequired
+        bookShelves: PropTypes.array.isRequired,
+        books: PropTypes.array.isRequired
     };
-    
-    // state variables
-    state = {
-        bookList: []
-    };
-
-    componentDidMount() {
-        BooksAPI.getAll().then((bookList) => {
-            this.setState({ bookList: bookList });
-        })
-    }
 
     // handle shelf changes in the server so user changes are saved accordingly
     // update bookList state
@@ -37,15 +27,15 @@ class BookShelves extends Component {
 
     // Assign correct shelf for Books Component to render
     shelfFilter(shelf) {
-
+        
         let filter = '';
 
         if (shelf === "Currently Reading") { filter = "currentlyReading" };
         if (shelf === "Want to Read") { filter = "wantToRead" };
         if (shelf === "Read") { filter = "read" };
 
-        return this.state.bookList.filter((books) => books.shelf === filter);
-
+        return this.props.books.filter((books) => books.shelf === filter);
+        
     }
 
     //render as many as book shelves you want from App component mapping from the props bookShelves array

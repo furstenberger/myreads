@@ -6,6 +6,11 @@ import * as BooksAPI from './BooksAPI'
 
 class Search extends Component {
 
+    //propTypes to controle what is coming
+    static propTypes = {
+        books: PropTypes.array.isRequired
+    };
+    
     state  = {
         query: '',
         bookQuery: []
@@ -22,7 +27,6 @@ class Search extends Component {
                     // here it must be clear that query and state query are the same due to async fetch of queries resolution
                     if (query === this.state.query) {
                         this.setState({ bookQuery: res })
-                        console.log(res[0].shelf)
                     }
                 })
                 .catch((err) => {
@@ -30,7 +34,6 @@ class Search extends Component {
                 });
         }
         else {
-            console.log('quando query vazio o valor de bookQuery e: ', this.state.bookQuery)
             this.setState({ bookQuery: [] });
         }
     }
@@ -53,6 +56,31 @@ class Search extends Component {
         
         const query = this.state.query;
         const bookQuery = this.state.bookQuery;
+        const books = this.props.books;
+        let selectedBookList = [];
+        let isPresent = false;
+        
+        // go over each book of the query array of books to find if they are in the shelves
+        bookQuery.forEach(searchedBook => {
+            // reset flag
+            isPresent = false;
+
+            // check for ids in
+            for (let i = 0 ; i < books.length ; i++){
+                
+                if (books[i].id === searchedBook.id) {
+                      
+                    isPresent = true;
+                    break;
+    
+                }
+            }
+
+            if (!isPresent) {
+                selectedBookList.push(searchedBook);
+            }
+
+        });
         
         return (
             <div className="search-books">
@@ -77,7 +105,7 @@ class Search extends Component {
                 </div>
                 <div className="search-books-results">
                     {bookQuery.length !== 0 && (
-                        <Books filteredBookList={bookQuery} onBookShelfChange={(book, newBookShelf) => this.handleShelfChange(book, newBookShelf)} />)
+                        <Books filteredBookList={selectedBookList} onBookShelfChange={(book, newBookShelf) => this.handleShelfChange(book, newBookShelf)} />)
                     }
                     <ol className="books-grid"></ol>
                 </div>
