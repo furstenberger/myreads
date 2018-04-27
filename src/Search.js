@@ -8,7 +8,8 @@ class Search extends Component {
 
     //propTypes to controle what is coming
     static propTypes = {
-        books: PropTypes.array.isRequired
+        books: PropTypes.array.isRequired,
+        onBookShelfChange: PropTypes.func.isRequired
     };
     
     state  = {
@@ -38,18 +39,8 @@ class Search extends Component {
         }
     }
 
-    // handle shelf changes in the server so user changes are saved accordingly
-    // update bookList state
-    handleShelfChange(book, newBookShelf) {
-        //console.log(book);
-        BooksAPI.update(book, newBookShelf).then(() => {
-            this.setState((state) => {
-                // find object index to update in state variables
-                const index = state.bookList.map((e) => { return e.id }).indexOf(book.id);
-                // upadte state variable according book ID and assign a new shelf state that renders when chaged
-                bookList: state.bookList[index].shelf = newBookShelf;
-            });
-        })
+    handleChange(book, value) {
+        this.props.onBookShelfChange(book, value);
     }
 
     render() {
@@ -105,7 +96,7 @@ class Search extends Component {
                 </div>
                 <div className="search-books-results">
                     {bookQuery.length !== 0 && (
-                        <Books filteredBookList={selectedBookList} onBookShelfChange={(book, newBookShelf) => this.handleShelfChange(book, newBookShelf)} />)
+                        <Books filteredBookList={selectedBookList} onBookShelfChange={this.props.onBookShelfChange} />)
                     }
                     <ol className="books-grid"></ol>
                 </div>

@@ -1,28 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Books from './Books';
-import * as BooksAPI from './BooksAPI'
 
 class BookShelves extends Component {
 
     //propTypes to controle what is coming
     static propTypes = {
         bookShelves: PropTypes.array.isRequired,
-        books: PropTypes.array.isRequired
+        books: PropTypes.array.isRequired,
+        onBookShelfChange: PropTypes.func.isRequired
     };
 
-    // handle shelf changes in the server so user changes are saved accordingly
-    // update bookList state
-    handleShelfChange(book, newBookShelf) {
-        //console.log(book);
-        BooksAPI.update(book, newBookShelf).then(() => {
-            this.setState((state) => {
-                // find object index to update in state variables
-                const index = state.bookList.map((e) => {return e.id}).indexOf(book.id);
-                // upadte state variable according book ID and assign a new shelf state that renders when chaged
-                bookList: state.bookList[index].shelf = newBookShelf; 
-            });
-        })            
+    handleChange(book, value) {
+        this.props.onBookShelfChange(book, value);
     }
 
     // Assign correct shelf for Books Component to render
@@ -51,7 +41,7 @@ class BookShelves extends Component {
                         <div className="bookshelf" key={index}>
                             <h2 className="bookshelf-title">{shelf}</h2>
                             <div className="bookshelf-books"></div>
-                            <Books filteredBookList={this.shelfFilter(shelf)} onBookShelfChange={(book, newBookShelf) => this.handleShelfChange(book, newBookShelf)} />
+                            <Books filteredBookList={this.shelfFilter(shelf)} onBookShelfChange={this.props.onBookShelfChange} />
                         </div>
                     ))}      
                 </div>

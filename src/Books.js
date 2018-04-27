@@ -11,8 +11,8 @@ class Books extends Component {
         filteredBookList: PropTypes.array.isRequired
     };
 
-    handleChange(book, value) {
-        this.props.onBookShelfChange(book, value);
+    handleChange(book, event) {
+        this.props.onBookShelfChange(book, event.target.value);
     }
 
     handleImgFallback(book) {
@@ -38,7 +38,7 @@ class Books extends Component {
                             <div className="book-top">
                                 <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: `url(${this.handleImgFallback(book)})` }}></div>
                                 <div className="book-shelf-changer">
-                                    <select value={book.shelf ? book.shelf : 'none'} onChange={(event) => this.handleChange(book, event.target.value)}>
+                                    <select value={book.shelf ? book.shelf : 'none'} onChange={this.handleChange.bind(this, book)}>
                                         <option value="none">Move to...</option>
                                         <option value="currentlyReading">Currently Reading</option>
                                         <option value="wantToRead">Want to Read</option>
