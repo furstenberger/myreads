@@ -16,6 +16,7 @@ class BooksApp extends React.Component {
   componentDidMount() {
     
     BooksAPI.getAll().then((bookList) => {
+      console.log('tentou renderizar')
       this.setState({ bookList: bookList });
     })
   }
@@ -24,12 +25,18 @@ class BooksApp extends React.Component {
   // update bookList state
   handleShelfChange(book, newBookShelf) {
     BooksAPI.update(book, newBookShelf)
-      .then(this.setState((state) => {
-        // find object index to update in state variables
-        const index = state.bookList.map((e) => { return e.id }).indexOf(book.id);
-        // upadte state variable according book ID and assign a new shelf state that renders when chaged
-        bookList: state.bookList[index].shelf = newBookShelf;
-      }))
+      .then( (res) => {
+          
+          this.setState((state) => {
+          // if book already in personal book list, update state variable
+          // find object index to update in state variables
+          const index = state.bookList.map((e) => { return e.id }).indexOf(book.id);
+          // upadte state variable according book ID and assign a new shelf state that renders when chaged
+          // if book is new, there is nothing to do
+          if (index != -1) {
+            bookList: state.bookList[index].shelf = newBookShelf;
+          } 
+      })})
       .catch(err => console.error('Error occurred moving book: ', err));
   }
 
