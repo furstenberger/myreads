@@ -16,7 +16,6 @@ class BooksApp extends React.Component {
   componentDidMount() {
     
     BooksAPI.getAll().then((bookList) => {
-      console.log('tentou renderizar')
       this.setState({ bookList: bookList });
     })
   }

@@ -21,22 +21,30 @@ class Search extends Component {
 
         this.setState({ query: query })
 
-        // if query is empty, clean the bookArray to render a clean screen, 
-        if (query !== '') {
-            BooksAPI.search(query)
-                .then((res) => {
-                    // here it must be clear that query and state query are the same due to async fetch of queries resolution
-                    if (query === this.state.query) {
-                        this.setState({ bookQuery: res })
+        BooksAPI.search(query)
+            .then(bookQuery => {
+                if (!bookQuery || bookQuery.error)
+                    return [];
+
+                let response = [];
+
+                for (const searchedBook of bookQuery) {
+                    for (const book of this.props.books) {
+                        if (searchedBook.id === book.id) {
+                            console.log('searched book %j', searchedBook);
+                            searchedBook.shelf = book.shelf;
+                        }
                     }
-                })
-                .catch((err) => {
-                    console.log('Error occurred searching books: ', err);
-                });
-        }
-        else {
-            this.setState({ bookQuery: [] });
-        }
+                    response.push(searchedBook);
+                }
+
+                return response;
+            })
+            .then(bookQuery => {
+                this.setState(state => ({ bookQuery }))
+            })
+            .catch(err => console.error('Error occurred searching books: ', err));
+
     }
 
     handleChange(book, value) {
@@ -63,7 +71,7 @@ class Search extends Component {
                       
                     isPresent = true;
                     break;
-    
+                    
                 }
             }
 
