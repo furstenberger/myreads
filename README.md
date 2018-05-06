@@ -99,3 +99,5 @@ This project is built around Udacity's myBooks React App. In order to comply wit
 
 * PropTypes for React (npm prop-types library)
 * Router for React (npm react-router-dom library)
+* Lodash debounce [v4.0.8](https://www.npmjs.com/package/lodash.debounce)
+* React-throttle [v0.3.0](https://www.npmjs.com/package/react-throttle) 

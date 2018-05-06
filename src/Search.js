@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Books from './Books';
 import { Link } from 'react-router-dom';
-import * as BooksAPI from './BooksAPI'
+import * as BooksAPI from './BooksAPI';
+import { Debounce } from 'react-throttle';
 
 class Search extends Component {
 
@@ -20,7 +21,7 @@ class Search extends Component {
     updateQuery = (query) => {
 
         this.setState({ query: query })
-
+        console.log('Chamou query', query);
         BooksAPI.search(query)
             .then(bookQuery => {
                 if (!bookQuery || bookQuery.error)
@@ -31,7 +32,6 @@ class Search extends Component {
                 for (const searchedBook of bookQuery) {
                     for (const book of this.props.books) {
                         if (searchedBook.id === book.id) {
-                            console.log('searched book %j', searchedBook);
                             searchedBook.shelf = book.shelf;
                         }
                     }
@@ -53,9 +53,9 @@ class Search extends Component {
 
     render() {
         
-        const query = this.state.query;
-        const bookQuery = this.state.bookQuery;
-        const books = this.props.books;
+        const { query, bookQuery}  = this.state;
+        const { books } = this.props;
+        
         let selectedBookList = [];
         let isPresent = false;
         
@@ -95,11 +95,12 @@ class Search extends Component {
                         you don't find a specific author or title. Every search is limited by search terms.
                         */
                         }
-                        <input type="text"
-                            placeholder="Search by title or author"
-                            value={query}
-                            onChange={(event) => this.updateQuery(event.target.value)}
-                        />
+                        <Debounce time='500' handler='onChange'>
+                            <input type="text"
+                                placeholder="Search by title or author"
+                                onChange={(event) => (this.updateQuery(event.target.value))}
+                            />
+                        </Debounce>
                     </div>
                 </div>
                 <div className="search-books-results">
