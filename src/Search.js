@@ -56,10 +56,10 @@ class Search extends Component {
         const { query, bookQuery}  = this.state;
         const { books } = this.props;
         
-        let selectedBookList = [];
-        let isPresent = false;
+        //let selectedBookList = [];
+        //let isPresent = false;
         
-        // go over each book of the query array of books to find if they are in the shelves
+/*         // go over each book of the query array of books to find if they are in the shelves
         bookQuery.forEach(searchedBook => {
             // reset flag
             isPresent = false;
@@ -79,7 +79,7 @@ class Search extends Component {
                 selectedBookList.push(searchedBook);
             }
 
-        });
+        }); */
         
         return (
             <div className="search-books">
@@ -105,7 +105,7 @@ class Search extends Component {
                 </div>
                 <div className="search-books-results">
                     {bookQuery.length !== 0 && (
-                        <Books filteredBookList={selectedBookList} onBookShelfChange={this.props.onBookShelfChange} />)
+                        <Books filteredBookList={bookQuery} onBookShelfChange={this.props.onBookShelfChange} />)
                     }
                     <ol className="books-grid"></ol>
                 </div>
