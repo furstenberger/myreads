@@ -56,31 +56,6 @@ class Search extends Component {
         const { query, bookQuery}  = this.state;
         const { books } = this.props;
         
-        //let selectedBookList = [];
-        //let isPresent = false;
-        
-/*         // go over each book of the query array of books to find if they are in the shelves
-        bookQuery.forEach(searchedBook => {
-            // reset flag
-            isPresent = false;
-
-            // check for ids in
-            for (let i = 0 ; i < books.length ; i++){
-                
-                if (books[i].id === searchedBook.id) {
-                      
-                    isPresent = true;
-                    break;
-                    
-                }
-            }
-
-            if (!isPresent) {
-                selectedBookList.push(searchedBook);
-            }
-
-        }); */
-        
         return (
             <div className="search-books">
                 <div className="search-books-bar">
