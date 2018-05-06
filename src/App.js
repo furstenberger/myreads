@@ -23,8 +23,30 @@ class BooksApp extends React.Component {
   // handle shelf changes in the server so user changes are saved accordingly
   // update bookList state
   handleShelfChange(book, newBookShelf) {
+        
     BooksAPI.update(book, newBookShelf)
-      .then( (res) => {
+      .then( 
+        this.setState( (prevState) => {
+          let isFound = false;
+          const newState = prevState.bookList.map( b => {
+            if (b.id === book.id) {
+              b.shelf = newBookShelf;
+              isFound = true;
+            }
+            return b;
+          });
+          if (!isFound) {
+            book.shelf = newBookShelf;
+            newState.push(book);
+          }
+          return {books: newState};
+        })
+
+
+
+
+
+        /* (res) => {
           
           this.setState((state) => {
           // if book already in personal book list, update state variable
@@ -35,7 +57,7 @@ class BooksApp extends React.Component {
           if (index != -1) {
             bookList: state.bookList[index].shelf = newBookShelf;
           } 
-      })})
+      })} */)
       .catch(err => console.error('Error occurred moving book: ', err));
   }
 
