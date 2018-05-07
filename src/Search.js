@@ -47,15 +47,8 @@ class Search extends Component {
 
     }
 
-    handleChange(book, value) {
-        this.props.onBookShelfChange(book, value);
-    }
-
     render() {
-        
-        const { query, bookQuery}  = this.state;
-        const { books } = this.props;
-        
+
         return (
             <div className="search-books">
                 <div className="search-books-bar">
@@ -79,8 +72,8 @@ class Search extends Component {
                     </div>
                 </div>
                 <div className="search-books-results">
-                    {bookQuery.length !== 0 && (
-                        <Books filteredBookList={bookQuery} onBookShelfChange={this.props.onBookShelfChange} />)
+                    {this.state.bookQuery.length !== 0 && (
+                        <Books filteredBookList={this.state.bookQuery} onBookShelfChange={this.props.onBookShelfChange} />)
                     }
                     <ol className="books-grid"></ol>
                 </div>

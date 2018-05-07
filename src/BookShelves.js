@@ -11,10 +11,6 @@ class BookShelves extends Component {
         onBookShelfChange: PropTypes.func.isRequired
     };
 
-    handleChange(book, value) {
-        this.props.onBookShelfChange(book, value);
-    }
-
     // Assign correct shelf for Books Component to render
     shelfFilter(shelf) {
         

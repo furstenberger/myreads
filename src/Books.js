@@ -8,7 +8,8 @@ class Books extends Component {
     
     //propTypes to controle what is coming
     static propTypes = {
-        filteredBookList: PropTypes.array.isRequired
+        filteredBookList: PropTypes.array.isRequired,
+        onBookShelfChange: PropTypes.func.isRequired
     };
 
     handleChange(book, event) {
